@@ -14,85 +14,90 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-    let result;
+    let winner;
     if (playerSelection === 'rock') {
         if (computerSelection === 'rock') {
-            result = 0;
-            return result;
+            winner = 'Draw';
+            return winner;
         }
         else if (computerSelection === 'paper') {
-            result = -1;
-            return result;
+            winner = 'Computer';
+            return winner;
         }
         else {
-            result = 1;
-            return result;
+            winner = 'Player';
+            return winner;
         }
     }
 
     if (playerSelection === 'scissors') {
         if (computerSelection === 'scissors') {
-            result = 0;
-            return result;
+            winner = 'Draw';
+            return winner;
         }
         else if (computerSelection === 'rock') {
-            result = -1;
-            return result;
+            winner = 'Computer';
+            return winner;
         }
         else {
-            message = 'You win! Scissors beats paper!';
-            result = 1;
-            return result;
+            winner = 'Player';
+            return winner;
         }
     }
 
     if (playerSelection === 'paper') {
         if (computerSelection === 'paper') {
-            result = 0;
-            return result;
+            winner = 'Draw';
+            return winner;
         }
         else if (computerSelection === 'scissors') {
-            result = -1;
-            return result;
+            winner = 'Computer';
+            return winner;
         }
         else {
-            result = 1;
-            return result;
+            winner = 'Player';
+            return winner;
         }
     }
     return message;
 }
 
-function getUserInput() {
-    let keepGoing = true;
-    let playerSelection;
-
-    while (keepGoing) {
-        playerSelection = prompt("Enter your move: ").toLowerCase();
-        if (playerSelection === 'rock' || playerSelection === 'paper' || playerSelection === 'scissors') {
-            keepGoing = false;
-        }
-        else {
-            alert("Must enter valid choice!");
-        }
+function updateWinner(roundWinner) {
+    if (roundWinner === 'Player') {
+        pointsPlayer++;
+        containerPlayer.textContent = `Player: ${pointsPlayer}`;
+        if (pointsPlayer < 5) matchResult.textContent = 'Player won this round!';
+        else if (pointsPlayer === 5) matchResult.textContent = 'You won! Refresh the browser to replay.';
     }
-    return playerSelection;
+    else if (roundWinner === 'Computer') {
+        pointsComputer++;
+        containerComputer.textContent = `Computer: ${pointsComputer}`;
+        if (pointsComputer < 5) matchResult.textContent = 'Player won this round!';
+        else if (pointsComputer === 5) matchResult.textContent = 'You lose! Refresh the browser to replay.';
+    }
+    else {
+        matchResult.textContent = 'It\'s a draw';
+    }
 }
 
-let result = 0;
+let pointsPlayer = 0;
+let pointsComputer = 0;
+let containerPlayer = document.getElementById('player');
+let containerComputer = document.getElementById('computer');
+let results = document.getElementById('results');
+let roundWinner = 0;
+let matchResult = document.getElementById('match-result');
 
-for (let i = 0; i < 5; i++) {
-    let playerSelection = getUserInput();
-    let computerSelection = getComputerChoice();
-    result += playRound(playerSelection, computerSelection);
-}
+const options = document.querySelectorAll('button');
 
-if (result > 0) {
-    console.log("You won!");
-}
-else if (result < 0) {
-    console.log("You lost!");
-}
-else {
-    console.log("It was a tie after all!");
-}
+options.forEach(button => {
+    button.addEventListener('click', () => {
+        roundWinner = playRound(button.value, getComputerChoice())
+        updateWinner(roundWinner);
+        if (pointsPlayer === 5 || pointsComputer === 5) {
+            options.forEach(button => {
+                button.disabled = true;
+            })
+        }
+    })
+});

@@ -4,9 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <h1>Rock, Paper, Scissors!</h1>
+    <h2>Choose your move:</h2>
+    <div class="container">
+        <div class="option">
+            <img src="images/rock.png" alt="hand doing rock symbol">
+            <button value="rock" id="rock">Rock</button>
+        </div>
+        <div class="option">
+            <img src="images/paper.png" alt="hand doing paper symbol">
+            <button value="paper">Paper</button>
+        </div>
+        <div class="option">
+            <img src="images/scissors.png" alt="hand doing scissors symbol">
+            <button value="scissors">Scissors</button>
+        </div>
+    </div>
+    <div id="match-result">
+        <p></p>
+    </div>
+    <div id="container-results">
+        <p class="results" id="player">Player: 0</p>
+        <p class="results" id="computer">Computer: 0</p>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
